@@ -1,0 +1,17 @@
+---
+version: "2.1"
+services:
+  unifi-controller:
+    image: lscr.io/linuxserver/unifi-controller
+    container_name: unifi-controller
+    build:
+        context: .
+        network: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - MEM_LIMIT=2048 #optional
+      - MEM_STARTUP=2048 #optional
+    volumes:
+      - /etc/unifi:/config
+    restart: unless-stopped
