@@ -1,6 +1,8 @@
 #!/bin/bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 
+curl -fsSL https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/unifi-update.sh -o unifi-update.sh
+
 sh get-docker.sh
 
 docker run -d \
