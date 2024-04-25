@@ -1,17 +1,41 @@
----
-version: "2.1"
 services:
-  unifi-controller:
-    image: lscr.io/linuxserver/unifi-controller
-    container_name: unifi-controller
-    build:
-        context: .
-        network: host
+  unifi:
+    image: lscr.io/linuxserver/unifi-network-application:latest
+    container_name: unifi
+    restart: unless-stopped
+    volumes:
+      - ./config:/config
+    network_mode: host
     environment:
       - PUID=1000
       - PGID=1000
-      - MEM_LIMIT=2048 #optional
-      - MEM_STARTUP=2048 #optional
+      - TZ=Europe/Prague
+      - MONGO_USER=unifi
+      - MONGO_PASS=unifi
+      - MONGO_HOST=unifi-db
+      - MONGO_PORT=27017
+      - MONGO_DBNAME=unifi
+      - MEM_LIMIT=1024 #optional
+      - MEM_STARTUP=1024 #optional
+    labels:
+      - com.centurylinklabs.watchtower.enable=true
+    depends_on:
+      - unifi-db
+
+  unifi-db:
+    image: mongo:4.4.28
+    container_name: unifi-db
     volumes:
-      - /etc/unifi:/config
+      - ./db:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    restart: unless-stopped
+  
+  watchtower:
+    image: containrrr/watchtower
+    environment:
+      - TZ=Europe/Prague
+      - WATCHTOWER_SCHEDULE="0 0 4 * * *"
+      - WATCHTOWER_LABEL_ENABLE=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
