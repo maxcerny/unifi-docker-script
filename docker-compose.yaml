@@ -7,6 +7,7 @@ services:
       - ./config:/config
     networks: 
       - default
+      - external
     environment:
       - PUID=1000
       - PGID=1000
@@ -37,7 +38,7 @@ services:
     image: containrrr/watchtower
     environment:
       - TZ=Europe/Prague
-      - WATCHTOWER_SCHEDULE="0 0 4 * * *"
+      - WATCHTOWER_SCHEDULE=0 0 4 * * *
       - WATCHTOWER_LABEL_ENABLE=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
