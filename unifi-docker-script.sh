@@ -1,15 +1,12 @@
 #!/bin/bash
 curl -fsSL https://get.docker.com -o get-docker.sh
 
-curl -fsSL https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/unifi-update.sh -o unifi-update.sh
+curl -fsSL https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/docker-compose.yaml -o docker-compose.yaml
+
+curl -fsSL https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/init-mongo.js -o init-mongo.js
+
+https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/init-mongo.js
 
 sh get-docker.sh
 
-docker run -d \
-  --name=unifi-controller \
-  -e PUID=1000 \
-  -e PGID=1000 \
-  --network host \
-  -v /etc/unifi:/config \
-  --restart unless-stopped \
-  lscr.io/linuxserver/unifi-controller
+docker compose up -d
