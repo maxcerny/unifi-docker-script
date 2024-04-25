@@ -5,7 +5,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./config:/config
-    network_mode: host
+    networks: 
+      - default
     environment:
       - PUID=1000
       - PGID=1000
@@ -29,6 +30,8 @@ services:
       - ./db:/data/db
       - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     restart: unless-stopped
+    networks:
+      - default
   
   watchtower:
     image: containrrr/watchtower
@@ -39,3 +42,10 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+
+
+networks:
+  default:
+  external:
+    driver: host
+    
