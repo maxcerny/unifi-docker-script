@@ -5,8 +5,6 @@ curl -fsSL https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/d
 
 curl -fsSL https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/init-mongo.js -o init-mongo.js
 
-https://raw.githubusercontent.com/maxcerny/unifi-docker-script/main/init-mongo.js
-
 sh get-docker.sh
 
 docker compose up -d
